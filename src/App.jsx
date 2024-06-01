@@ -5,19 +5,11 @@ import "./App.css";
 import { Auth } from "./components/auth";
 
 function App() {
-  // Retrieve the initial state from localStorage or default to false
-  const [number, setNumber] = useState(
-    Number(localStorage.getItem("number")) || 0
-  );
+  // Retrieve the initial state from localStorage or default to falses
   const [dark, setDark] = useState(() => {
     const savedDarkMode = localStorage.getItem("dark");
     return savedDarkMode === "true";
   });
-
-  // Effect to update localStorage and apply the dark class
-  useEffect(() => {
-    localStorage.setItem("number", number);
-  }, [number]);
 
   useEffect(() => {
     localStorage.setItem("dark", dark);
@@ -30,7 +22,7 @@ function App() {
 
   return (
     <div className="dark:bg-slate-800 min-h-screen flex flex-col">
-      <div className="flex w-full justify-between items-center px-2 py-1 bg-blue-600">
+      <div className="flex w-full justify-between items-center px-2 py-1 bg-sky-600">
         <h2 className="text-slate-100 p-2 rounded-lg">
           Firebase and ReactJS Exploration
         </h2>
@@ -70,14 +62,6 @@ function App() {
       </div>
       <div className="flex-grow flex flex-col items-center justify-center">
         <Auth />
-        <div className="card">
-          <button
-            className="bg-blue-500 p-4 rounded-lg"
-            onClick={() => setNumber((number) => number + 3)}
-          >
-            your number is {number}
-          </button>
-        </div>
       </div>
     </div>
   );
