@@ -5,7 +5,7 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 export const MovieList = () => {
   const [movieList, setMovieList] = useState([]);
   const movieCollectionRef = collection(dbFirestore, "movie");
-  const [addMovieModal, setAddMovieModal] = useState(Boolean(true));
+  const [addMovieModal, setAddMovieModal] = useState(Boolean(false));
 
   const openAddMovie = () => {
     setAddMovieModal(!addMovieModal);
@@ -31,7 +31,7 @@ export const MovieList = () => {
   const [newMovieTitle, setNewMovieTitle] = useState("");
   const [newMovieGenre, setNewMovieGenre] = useState("");
   const [newMovieReleaseDate, setNewReleaseDate] = useState("");
-  const [newMovieIsOscar, setNewMovieIsOscar] = useState(false);
+  const [newMovieIsOscar, setNewMovieIsOscar] = useState(Boolean(false));
 
   //read data from firestore
   const getMovieList = async () => {
@@ -134,8 +134,8 @@ export const MovieList = () => {
               <input
                 id="oscard"
                 type="checkbox"
-                value={newMovieIsOscar}
-                onChange={(e) => setNewMovieIsOscar(e.target.value)}
+                checked={newMovieIsOscar}
+                onChange={(e) => setNewMovieIsOscar(e.target.checked)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               ></input>
               <label
@@ -163,13 +163,21 @@ export const MovieList = () => {
           Add new
         </button>
       </div>
-      <div className=" text-slate-50">
+      <div className=" grid grid-cols-4 gap-3">
         {movieList.map((movie) => (
           <div
             key={movie.id}
-            className=" drop-shadow-md min-w-[80%] bg-slate-700 p-3 rounded-lg mb-2"
+            className=" drop-shadow-md min-w-[80%] bg-slate-700 p-3 rounded-lg mb-2 "
           >
-            <h1 className=" font-bold text-2xl">{movie.title}</h1>
+            <h1
+              className={`"font-bold text-2xl"${
+                movie.hasAnOscarAward === true
+                  ? "text-yellow-500 "
+                  : "text-slate-50"
+              }`}
+            >
+              {movie.title}
+            </h1>
             <span className=" mr-2">{movie.genre}</span>
             <span>{movie.releaseDate}</span>
           </div>
